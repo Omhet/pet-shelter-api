@@ -1,5 +1,6 @@
 import compression from 'compression';
 import cors from 'cors';
+import cache from 'express-aggressive-cache';
 import express from 'express';
 import { getCat, getDog, getDogsNumber } from './parsers';
 
@@ -7,6 +8,12 @@ const app = express();
 
 app.use(cors());
 app.use(compression());
+
+app.use(
+    cache({
+        maxAge: 3600,
+    }).middleware
+);
 
 app.get('/dogs/number', async (_req, res) => {
     const data = await getDogsNumber();
