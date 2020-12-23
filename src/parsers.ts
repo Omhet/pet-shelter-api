@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { getText, getImage } from './utils';
+import { getText, getImage, getLink } from './utils';
 
 const parserOptions = {
     referrer: 'https://example.com/',
@@ -41,8 +41,10 @@ export const getAnimal = async (url: string, index: number) => {
     const gender = getText(card, '.title .gender');
     const description = getText(card, '.h4');
     const img = getImage(card, '.img-wrap img');
+    const relLink = getLink(card, '.img-wrap a');
+    const link = `${dom.window.location.hostname}${relLink}`;
 
-    return { name, gender, description, img };
+    return { name, gender, description, img, link };
 };
 
 export const getAnimalsNumber = async (url: string) => {
