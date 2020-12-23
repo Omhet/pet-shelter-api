@@ -2,7 +2,7 @@ import compression from 'compression';
 import cors from 'cors';
 import cache from 'express-aggressive-cache';
 import express from 'express';
-import { getCat, getDog, getDogsNumber } from './parsers';
+import { getCat, getCatsNumber, getDog, getDogsNumber } from './parsers';
 
 const app = express();
 
@@ -22,6 +22,11 @@ app.get('/dogs/number', async (_req, res) => {
 
 app.get('/dogs/:index', async (req, res) => {
     const data = await getDog(Number(req.params.index));
+    res.json(data);
+});
+
+app.get('/cats/number', async (_req, res) => {
+    const data = await getCatsNumber();
     res.json(data);
 });
 

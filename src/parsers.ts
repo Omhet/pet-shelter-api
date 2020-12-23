@@ -54,3 +54,4 @@ export const getDog = async (index: number) => getAnimal(dogsUrl, index);
 export const getCat = async (index: number) => getAnimal(catsUrl, index);
 
 export const getDogsNumber = async () => getAnimalsNumber(dogsUrl);
+export const getCatsNumber = async () => getAnimalsNumber(catsUrl);
