@@ -1,39 +1,21 @@
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
-import jsdom from 'jsdom';
-import { getText, getImage } from './utils';
+import { getCat, getDog } from './parsers';
 
 const app = express();
 
 app.use(cors());
 app.use(compression());
 
-const { JSDOM } = jsdom;
-const dogsUrl = 'https://izpriuta.ru/sobaki';
-const showcaseUrl = 'https://izpriuta.ru/koshki';
+app.get('/dog/:index', async (req, res) => {
+    const animal = await getDog(Number(req.params.index));
+    res.json(animal);
+});
 
-const options = {
-    referrer: 'https://example.com/',
-};
-
-app.get('/dog/:index', (req, res) => {
-    const index = Number(req.params.index);
-    const cardsOnPage = 9;
-    const page = Math.floor(index / cardsOnPage);
-    const cardIndex = index % cardsOnPage;
-
-    JSDOM.fromURL(`${dogsUrl}?page=${page}`, options).then((dom) => {
-        const doc = dom.window.document;
-        const cards = doc.querySelectorAll('.card.box');
-        const card = cards[cardIndex];
-        const name = getText(card, '.title h2');
-        const gender = getText(card, '.title .gender');
-        const description = getText(card, '.h4');
-        const img = getImage(card, '.img-wrap img');
-
-        res.json({ name, gender, description, img });
-    });
+app.get('/cat/:index', async (req, res) => {
+    const animal = await getCat(Number(req.params.index));
+    res.json(animal);
 });
 
 const port = process.env.PORT || 3000;
